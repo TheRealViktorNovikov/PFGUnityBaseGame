@@ -1,10 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public class Open
+{
+    private bool isOpen = false;
+    public bool IsOpen
+    {
+        get { return isOpen; }
+        set { isOpen = value; }
+    }
+}
 
 public class DoorController : MonoBehaviour
 {
     public bool isOpen = false;
+    Open isOpenObj = new Open();
+
     [SerializeField] private bool isRotatingDoor = true;
     [SerializeField] private float speed = 1f;
 
@@ -56,7 +67,7 @@ public class DoorController : MonoBehaviour
             endRotation = Quaternion.Euler(new Vector3(0, startRotation.y + rotationAmount, 0));
         }
 
-        isOpen = true;
+        isOpenObj.IsOpen = true;
 
         float time = 0;
         while (time < 1)
@@ -88,7 +99,7 @@ public class DoorController : MonoBehaviour
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation = Quaternion.Euler(StartRotation);
 
-        isOpen= false;
+        isOpenObj.IsOpen = false;
 
         float time = 0;
         while (time < 1)
