@@ -1,20 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class Open
-{
-    private bool isOpen = false;
-    public bool IsOpen
-    {
-        get { return isOpen; }
-        set { isOpen = value; }
-    }
-}
-
+    
 public class DoorController : MonoBehaviour
 {
     public bool isOpen = false;
-    Open isOpenObj = new Open();
+    DoorText text = new DoorText();
 
     [SerializeField] private bool isRotatingDoor = true;
     [SerializeField] private float speed = 1f;
@@ -37,7 +28,7 @@ public class DoorController : MonoBehaviour
 
     public void Open(Vector3 UserPosition)
     {
-        if (!isOpen)
+        if (isOpen == false)
         {
             if (AnimationCoroutine!= null)
             {
@@ -46,8 +37,8 @@ public class DoorController : MonoBehaviour
 
             if (isRotatingDoor)
             {
+                text.DoorOpened();
                 float dot = Vector3.Dot(forward, (UserPosition - transform.position).normalized);
-                Debug.Log($"Dot: {dot.ToString("N3")}");
                 AnimationCoroutine = StartCoroutine(DoRotationOpen(dot));
             }
         }
@@ -67,7 +58,7 @@ public class DoorController : MonoBehaviour
             endRotation = Quaternion.Euler(new Vector3(0, startRotation.y + rotationAmount, 0));
         }
 
-        isOpenObj.IsOpen = true;
+        isOpen = true;
 
         float time = 0;
         while (time < 1)
@@ -80,7 +71,7 @@ public class DoorController : MonoBehaviour
 
     public void Close()
     {
-        if (isOpen)
+        if (isOpen == true)
         {
             if (AnimationCoroutine != null)
             {
@@ -99,7 +90,7 @@ public class DoorController : MonoBehaviour
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation = Quaternion.Euler(StartRotation);
 
-        isOpenObj.IsOpen = false;
+        isOpen = false;
 
         float time = 0;
         while (time < 1)
